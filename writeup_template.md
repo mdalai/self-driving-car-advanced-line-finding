@@ -119,6 +119,11 @@ I implemented this step in lines # through # in my code in `yet_another_file.py`
 
 ![alt text]('assets/map_lane.PNG') 
 
+Pipeline test on different test images:
+![alt text]('assets/pipeline_test1.PNG') 
+![alt text]('assets/pipeline_test2.PNG') 
+![alt text]('assets/pipeline_test3.PNG') 
+
 ---
 
 ### Pipeline (video)
