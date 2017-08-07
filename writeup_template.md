@@ -112,7 +112,7 @@ I implemented this step in the function `map_lane()`.  Here is an example of my 
 
 #### Pipeline testing - created a pipeline() function
 Pipeline test on different test images:
-![alt text](assets/pipeline_test1.PN) 
+![alt text](assets/pipeline_test1.PNG) 
 ![alt text](assets/pipeline_test2.PNG) 
 ![alt text](assets/pipeline_test3.PNG) 
 
@@ -122,7 +122,7 @@ Pipeline test on different test images:
 
 #### 1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
 
-Here's a [link to my video result](./project_video.mp4)
+Here's a [link to my video result](project_video.mp4)
 
 ---
 
@@ -131,3 +131,12 @@ Here's a [link to my video result](./project_video.mp4)
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
 Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+* Applying sliding window search to find fit line for each frame. It is computitionally expensive. We can do skip sliding window if the fit line is already detected in the previous frame.
+* Drawn lanes are not smooth. 
+* Problems occur when background change (see below example).  I think:
+  * optimize thresholds such as adding magtitude gradient threshold and direction threshold.
+  * adjust threshold values
+  * apply skipping sliding window, may be helpful.
+
+![alt text](assets/problem1.PNG) 
+![alt text](assets/problem2.PNG) 
