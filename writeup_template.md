@@ -15,29 +15,33 @@ The goals / steps of this project are the following:
 
 ### Camera Calibration
 
-#### 1. Briefly state how you computed the camera matrix and distortion coefficients. Provide an example of a distortion corrected calibration image.
+* **Prepare the objpoints and imgpoints needed for camera calibration**
+* **Calculate camera matrices (mtx) and distortion coefficients (dist). Mtx and dist are needed to transform 3D image into 2D image.**
+* **Test: correct distortion using camera matrices and distortion coefficients.**
 
 I start by preparing "object points", which will be the (x, y, z) coordinates of the chessboard corners in the world. Here I am assuming the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Thus, `objp` is just a replicated array of coordinates, and `objpoints` will be appended with a copy of it every time I successfully detect all chessboard corners in a test image.  `imgpoints` will be appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection.  
 
 I then used the output `objpoints` and `imgpoints` to compute the camera calibration and distortion coefficients using the `cv2.calibrateCamera()` function.  I applied this distortion correction to the test image using the `cv2.undistort()` function and obtained this result: 
 
-![alt text]('/assets/calibration_chessboard.PNG')
+![alt text](/assets/calibration_chessboard.PNG)
 
 Test on a road image, the result is not obvious.
-![alt text]('/assets/calibration_road.PNG')
+![alt text](/assets/calibration_road.PNG)
 
 ### Pipeline (single images)
 
 #### 1. Provide an example of a distortion-corrected image.
 
-To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
-![alt text]('assets/undistort_img.PNG')
+![alt text](assets/undistort_img.PNG)
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at lines # through # in `another_file.py`).  Here's an example of my output for this step.  (note: this is not actually from one of the test images)
+* **Convert RGB into HLS.**
+* **Apply L channel threshold using Sobel X.**
+* **Apply S channel threshold.**
+* **Combine two binary threshold images.**
 
-![alt text]('assets/thresholding.PNG') 
+![alt text](assets/thresholding.PNG)    
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
@@ -70,33 +74,47 @@ This resulted in the following source and destination points:
 | 1120, 720     | 1120, 720      |
 | 160, 720      | 160, 720        |
 
-![alt text]('assets/srcPts.PNG') 
+Show source points on a image:
+
+![alt text](assets/srcPts.PNG) 
 
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
 
-![alt text]('assets/warped.PNG') 
+![alt text](assets/warped.PNG) 
 
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
-Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
+* **Identify Right and Left line by histogram.**
+* **Apply Sliding window method to find the best fit lines.**
+* function: find_lane()
 
-![alt text]('assets/sliding_win.PNG') 
+![alt text](assets/sliding_win.PNG) 
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-I did this in lines # through # in my code in `my_other_file.py`
+**Mesuring Curvature**:
+* Calculate Radious of a Curve f(y) = Ay^2 + By + C.
+* Radius for left and right line.
+* Convert from pixel space to real work space which is meter.
+
+**Calculate the Offset**:
+* Find the lane center.
+* Find the image center (X midpoint).
+* distance = image center - lane center
+* Convert from pixel space to real work space which is meter.
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
+I implemented this step in the function `map_lane()`.  Here is an example of my result on a test image:
 
-![alt text]('assets/map_lane.PNG') 
+![alt text](assets/map_lane.PNG) 
 
+#### Pipeline testing - created a pipeline() function
 Pipeline test on different test images:
-![alt text]('assets/pipeline_test1.PNG') 
-![alt text]('assets/pipeline_test2.PNG') 
-![alt text]('assets/pipeline_test3.PNG') 
+![alt text](assets/pipeline_test1.PN) 
+![alt text](assets/pipeline_test2.PNG) 
+![alt text](assets/pipeline_test3.PNG) 
 
 ---
 
